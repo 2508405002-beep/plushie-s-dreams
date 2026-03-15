@@ -2128,4 +2128,157 @@ body::before {
     .contact-form {
         padding: 24px;
     }
+
+    .music-toggle {
+        bottom: 90px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .music-icon {
+        font-size: 1.2rem;
+    }
+}
+
+/* ====================== MUSIC TOGGLE BUTTON ====================== */
+.music-toggle {
+    position: fixed;
+    bottom: 110px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--grad-cool);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s var(--bounce);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.music-toggle:hover {
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow: var(--shadow-lg), var(--shadow-glow-purple);
+}
+
+.music-toggle:active {
+    transform: scale(0.95);
+}
+
+.music-toggle.playing {
+    background: var(--grad-warm);
+    box-shadow: var(--shadow-lg), var(--shadow-glow-pink);
+    animation: musicGlow 2s ease-in-out infinite;
+}
+
+@keyframes musicGlow {
+    0%, 100% {
+        box-shadow: var(--shadow-md), 0 0 20px rgba(255, 142, 200, 0.3);
+    }
+    50% {
+        box-shadow: var(--shadow-lg), 0 0 40px rgba(255, 142, 200, 0.5);
+    }
+}
+
+.music-icon {
+    font-size: 1.4rem;
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.music-toggle.playing .music-icon {
+    opacity: 0;
+    transform: scale(0);
+    position: absolute;
+}
+
+/* Equalizer bars — visible when playing */
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 20px;
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.music-toggle.playing .music-bars {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.music-bars .bar {
+    display: block;
+    width: 4px;
+    background: var(--white);
+    border-radius: 2px;
+    animation: none;
+}
+
+.music-toggle.playing .music-bars .bar {
+    animation: eqBar 1s ease-in-out infinite;
+}
+
+.music-bars .bar:nth-child(1) {
+    height: 8px;
+    animation-delay: 0s;
+}
+
+.music-bars .bar:nth-child(2) {
+    height: 16px;
+    animation-delay: 0.15s;
+}
+
+.music-bars .bar:nth-child(3) {
+    height: 12px;
+    animation-delay: 0.3s;
+}
+
+.music-bars .bar:nth-child(4) {
+    height: 6px;
+    animation-delay: 0.45s;
+}
+
+@keyframes eqBar {
+    0%, 100% {
+        height: 6px;
+    }
+    25% {
+        height: 18px;
+    }
+    50% {
+        height: 10px;
+    }
+    75% {
+        height: 14px;
+    }
+}
+
+/* Music pulse ring */
+.music-pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid var(--pink);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.music-toggle.playing .music-pulse {
+    animation: musicPulseRing 2s ease-out infinite;
+}
+
+@keyframes musicPulseRing {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
 }

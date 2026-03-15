@@ -482,4 +482,284 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 800 + Math.random() * 700);
     });
 
+    /* ====================== BACKGROUND MUSIC — Web Audio API ====================== */
+    /* A slow, peppy, dreamy music-box melody that fits the Plushie's Dream theme */
+
+    const musicToggle = document.getElementById('musicToggle');
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let musicNodes = {};
+
+    // Musical constants — C major pentatonic scale for a warm, happy feel
+    const NOTE_FREQS = {
+        'C3': 130.81, 'D3': 146.83, 'E3': 164.81, 'G3': 196.00, 'A3': 220.00,
+        'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'G4': 392.00, 'A4': 440.00,
+        'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'G5': 783.99, 'A5': 880.00,
+    };
+
+    // Dreamy, slow but peppy melody — 4 phrases that loop
+    const melodyPhrases = [
+        // Phrase 1 — ascending, hopeful
+        ['E4','G4','A4','C5', 'A4','G4','E4','G4'],
+        // Phrase 2 — playful bounce
+        ['D4','E4','G4','E4', 'C4','D4','E4','C4'],
+        // Phrase 3 — reaching high
+        ['G4','A4','C5','D5', 'C5','A4','G4','E4'],
+        // Phrase 4 — gentle landing
+        ['A4','G4','E4','D4', 'E4','G4','C4','E4'],
+    ];
+
+    // Chord progression (root notes for the pad)
+    const chordProg = [
+        ['C3', 'E3', 'G3'],  // C major
+        ['A3', 'C4', 'E4'],  // A minor (but sounds warm in context)
+        ['D3', 'G3', 'A3'],  // Dsus / G open
+        ['C3', 'G3', 'E3'],  // C major variant
+    ];
+
+    // Note duration in seconds (slow tempo ≈ 85 BPM, each note = one beat)
+    const BEAT_DUR = 0.7;
+    const PHRASE_DUR = melodyPhrases[0].length * BEAT_DUR;
+
+    function initAudio() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Master gain
+        const masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0;
+        masterGain.connect(audioCtx.destination);
+
+        // Convolver for dreamy reverb
+        const convolver = audioCtx.createConvolver();
+        const reverbLen = audioCtx.sampleRate * 2;
+        const reverbBuf = audioCtx.createBuffer(2, reverbLen, audioCtx.sampleRate);
+        for (let ch = 0; ch < 2; ch++) {
+            const data = reverbBuf.getChannelData(ch);
+            for (let i = 0; i < reverbLen; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 2.5);
+            }
+        }
+        convolver.buffer = reverbBuf;
+
+        // Wet/Dry mix
+        const dryGain = audioCtx.createGain();
+        dryGain.gain.value = 0.6;
+        const wetGain = audioCtx.createGain();
+        wetGain.gain.value = 0.4;
+
+        dryGain.connect(masterGain);
+        convolver.connect(wetGain);
+        wetGain.connect(masterGain);
+
+        // Melody gain
+        const melodyGain = audioCtx.createGain();
+        melodyGain.gain.value = 0.35;
+        melodyGain.connect(dryGain);
+        melodyGain.connect(convolver);
+
+        // Pad gain (background chords)
+        const padGain = audioCtx.createGain();
+        padGain.gain.value = 0.12;
+        padGain.connect(dryGain);
+        padGain.connect(convolver);
+
+        // Bell / music-box gain (high sparkle notes)
+        const bellGain = audioCtx.createGain();
+        bellGain.gain.value = 0.15;
+        bellGain.connect(dryGain);
+        bellGain.connect(convolver);
+
+        musicNodes = { masterGain, melodyGain, padGain, bellGain };
+
+        // Ramp volume up smoothly
+        masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+        masterGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5);
+
+        // Start the loops
+        scheduleMelody(audioCtx.currentTime + 0.3);
+        schedulePad(audioCtx.currentTime);
+        scheduleBells(audioCtx.currentTime + 0.15);
+    }
+
+    // ── Melody: music-box sine + triangle blend ──
+    function playNote(freq, startTime, duration, gainNode) {
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const noteGain = audioCtx.createGain();
+
+        osc1.type = 'sine';
+        osc1.frequency.value = freq;
+
+        osc2.type = 'triangle';
+        osc2.frequency.value = freq;
+        const osc2Gain = audioCtx.createGain();
+        osc2Gain.gain.value = 0.3;
+
+        // ADSR-ish envelope
+        const attack = 0.05;
+        const decay = duration * 0.3;
+        const sustain = 0.6;
+        const release = duration * 0.4;
+
+        noteGain.gain.setValueAtTime(0, startTime);
+        noteGain.gain.linearRampToValueAtTime(1, startTime + attack);
+        noteGain.gain.linearRampToValueAtTime(sustain, startTime + attack + decay);
+        noteGain.gain.linearRampToValueAtTime(0, startTime + duration);
+
+        osc1.connect(noteGain);
+        osc2.connect(osc2Gain);
+        osc2Gain.connect(noteGain);
+        noteGain.connect(gainNode);
+
+        osc1.start(startTime);
+        osc1.stop(startTime + duration + 0.05);
+        osc2.start(startTime);
+        osc2.stop(startTime + duration + 0.05);
+    }
+
+    // ── Schedule melody loop ──
+    let melodyTimer = null;
+    function scheduleMelody(startTime) {
+        let t = startTime;
+        for (let p = 0; p < melodyPhrases.length; p++) {
+            const phrase = melodyPhrases[p];
+            for (let n = 0; n < phrase.length; n++) {
+                const freq = NOTE_FREQS[phrase[n]];
+                if (freq) {
+                    playNote(freq, t, BEAT_DUR * 0.85, musicNodes.melodyGain);
+                }
+                t += BEAT_DUR;
+            }
+        }
+
+        // Schedule next loop
+        const totalDur = melodyPhrases.length * PHRASE_DUR;
+        const nextStart = startTime + totalDur;
+        const delayMs = (nextStart - audioCtx.currentTime) * 1000 - 200;
+        melodyTimer = setTimeout(() => {
+            if (isMusicPlaying) scheduleMelody(nextStart);
+        }, Math.max(0, delayMs));
+    }
+
+    // ── Pad: soft, sustained chords ──
+    let padOscs = [];
+    function schedulePad(startTime) {
+        // Clean up previous pad oscillators
+        padOscs.forEach(o => { try { o.stop(); } catch(e) {} });
+        padOscs = [];
+
+        let t = startTime;
+        for (let p = 0; p < chordProg.length; p++) {
+            const chord = chordProg[p];
+            const chordDur = PHRASE_DUR;
+
+            chord.forEach(noteName => {
+                const freq = NOTE_FREQS[noteName];
+                if (!freq) return;
+
+                const osc = audioCtx.createOscillator();
+                const oscGain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+
+                // Slow fade in/out for dreamy feel
+                oscGain.gain.setValueAtTime(0, t);
+                oscGain.gain.linearRampToValueAtTime(1, t + chordDur * 0.2);
+                oscGain.gain.linearRampToValueAtTime(0.7, t + chordDur * 0.8);
+                oscGain.gain.linearRampToValueAtTime(0, t + chordDur);
+
+                osc.connect(oscGain);
+                oscGain.connect(musicNodes.padGain);
+
+                osc.start(t);
+                osc.stop(t + chordDur + 0.1);
+                padOscs.push(osc);
+            });
+
+            t += chordDur;
+        }
+
+        // Schedule next loop
+        const totalDur = chordProg.length * PHRASE_DUR;
+        const nextStart = startTime + totalDur;
+        const delayMs = (nextStart - audioCtx.currentTime) * 1000 - 200;
+        setTimeout(() => {
+            if (isMusicPlaying) schedulePad(nextStart);
+        }, Math.max(0, delayMs));
+    }
+
+    // ── Bell sparkle: random high pentatonic notes ──
+    let bellTimer = null;
+    function scheduleBells(startTime) {
+        const highNotes = ['C5', 'E5', 'G5', 'A5', 'D5'];
+        let t = startTime;
+
+        // Scatter 6-8 bell notes across one full loop
+        const loopDur = melodyPhrases.length * PHRASE_DUR;
+        const bellCount = 6 + Math.floor(Math.random() * 3);
+
+        for (let i = 0; i < bellCount; i++) {
+            const noteTime = t + Math.random() * loopDur;
+            const noteName = highNotes[Math.floor(Math.random() * highNotes.length)];
+            const freq = NOTE_FREQS[noteName];
+            if (freq) {
+                // Bell: pure sine with fast decay
+                const osc = audioCtx.createOscillator();
+                const bellEnv = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+
+                bellEnv.gain.setValueAtTime(0, noteTime);
+                bellEnv.gain.linearRampToValueAtTime(0.8, noteTime + 0.02);
+                bellEnv.gain.exponentialRampToValueAtTime(0.001, noteTime + 1.5);
+
+                osc.connect(bellEnv);
+                bellEnv.connect(musicNodes.bellGain);
+
+                osc.start(noteTime);
+                osc.stop(noteTime + 1.6);
+            }
+        }
+
+        const nextStart = startTime + loopDur;
+        const delayMs = (nextStart - audioCtx.currentTime) * 1000 - 200;
+        bellTimer = setTimeout(() => {
+            if (isMusicPlaying) scheduleBells(nextStart);
+        }, Math.max(0, delayMs));
+    }
+
+    // ── Toggle music on/off ──
+    musicToggle.addEventListener('click', () => {
+        if (!isMusicPlaying) {
+            // Start music
+            if (!audioCtx) {
+                initAudio();
+            } else {
+                audioCtx.resume();
+                musicNodes.masterGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5);
+                scheduleMelody(audioCtx.currentTime + 0.3);
+                schedulePad(audioCtx.currentTime);
+                scheduleBells(audioCtx.currentTime + 0.15);
+            }
+            isMusicPlaying = true;
+            musicToggle.classList.add('playing');
+        } else {
+            // Stop music — fade out
+            isMusicPlaying = false;
+            musicToggle.classList.remove('playing');
+
+            if (audioCtx && musicNodes.masterGain) {
+                musicNodes.masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+                setTimeout(() => {
+                    if (!isMusicPlaying) audioCtx.suspend();
+                }, 1000);
+            }
+
+            clearTimeout(melodyTimer);
+            clearTimeout(bellTimer);
+        }
+    });
+
 });
