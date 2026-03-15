@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Plushie's Dream — Where Cuddles Come to Life! Explore our magical collection of adorable plush toys.">
+    <title>PLUSHIE'S DREAM — Where Cuddles Come to Life!</title>
+
+    <!-- Google Fonts — cartoon/playful fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ====================== CUSTOM CURSOR ====================== -->
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="cursor-trail" id="cursorTrail"></div>
+
+    <!-- ====================== PAGE LOADER ====================== -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-plushie">🧸</div>
+            <h2>PLUSHIE'S DREAM</h2>
+            <div class="loader-bar">
+                <div class="loader-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================== SPARKLES CANVAS ====================== -->
+    <canvas id="sparklesCanvas"></canvas>
+
+    <!-- ====================== NAVIGATION ====================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">🧸</span>
+                <span class="logo-text">PLUSHIE'S DREAM</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="nav-link active">Home</a></li>
+                <li><a href="#products" class="nav-link">Shop</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Cart icon -->
+            <div class="nav-cart" id="navCart">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+
+            <!-- Hamburger menu -->
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ====================== HERO SECTION ====================== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+
+        <!-- Floating plush toys -->
+        <div class="floating-plushies">
+            <span class="float-toy" style="--delay:0s; --x:10%; --y:20%">🐻</span>
+            <span class="float-toy" style="--delay:1s; --x:85%; --y:15%">🦄</span>
+            <span class="float-toy" style="--delay:2s; --x:75%; --y:70%">🐰</span>
+            <span class="float-toy" style="--delay:0.5s; --x:15%; --y:75%">🦊</span>
+            <span class="float-toy" style="--delay:1.5s; --x:50%; --y:10%">🐱</span>
+            <span class="float-toy" style="--delay:2.5s; --x:90%; --y:50%">🐼</span>
+            <span class="float-toy" style="--delay:3s; --x:5%; --y:45%">🐧</span>
+            <span class="float-toy" style="--delay:0.8s; --x:40%; --y:80%">🦋</span>
+        </div>
+
+        <div class="hero-content" data-animate="fade-up">
+            <h1 class="hero-title">
+                Welcome to<br>
+                <span class="gradient-text">PLUSHIE'S DREAM</span>
+            </h1>
+            <p class="hero-tagline">✨ Where Cuddles Come to Life! ✨</p>
+            <a href="#products" class="btn btn-primary hero-cta">
+                <span>Shop Now</span>
+                <span class="btn-sparkle">✨</span>
+            </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-dot"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- ====================== FEATURED PRODUCTS ====================== -->
+    <section class="section products" id="products">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">✨ Our Collection ✨</span>
+                <h2 class="section-title">Featured Plushies</h2>
+                <p class="section-subtitle">Handpicked favorites that are simply irresistible!</p>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card" data-animate="fade-up" data-delay="0">
+                    <div class="product-badge">🔥 Bestseller</div>
+                    <div class="product-img-wrap">
+                        <img src="images/plushie_bear.png" alt="Cuddly Pink Bear" class="product-img" loading="lazy">
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" data-product="Cuddly Pink Bear">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Cuddly Pink Bear</h3>
+                        <div class="product-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="product-price">$24.99</div>
+                        <button class="btn btn-cart" data-name="Cuddly Pink Bear" data-price="24.99">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card" data-animate="fade-up" data-delay="100">
+                    <div class="product-badge new">🌟 New</div>
+                    <div class="product-img-wrap">
+                        <img src="images/plushie_unicorn.png" alt="Magical Unicorn" class="product-img" loading="lazy">
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" data-product="Magical Unicorn">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Magical Unicorn</h3>
+                        <div class="product-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="product-price">$29.99</div>
+                        <button class="btn btn-cart" data-name="Magical Unicorn" data-price="29.99">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card" data-animate="fade-up" data-delay="200">
+                    <div class="product-badge">💖 Popular</div>
+                    <div class="product-img-wrap">
+                        <img src="images/plushie_bunny.png" alt="Dreamy Blue Bunny" class="product-img" loading="lazy">
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" data-product="Dreamy Blue Bunny">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Dreamy Blue Bunny</h3>
+                        <div class="product-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="product-price">$22.99</div>
+                        <button class="btn btn-cart" data-name="Dreamy Blue Bunny" data-price="22.99">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 4 — emoji placeholder -->
+                <div class="product-card" data-animate="fade-up" data-delay="300">
+                    <div class="product-badge new">🌟 New</div>
+                    <div class="product-img-wrap">
+                        <div class="product-img product-emoji-img">🦕</div>
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" data-product="Dino Snuggles">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Dino Snuggles</h3>
+                        <div class="product-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="product-price">$27.99</div>
+                        <button class="btn btn-cart" data-name="Dino Snuggles" data-price="27.99">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card" data-animate="fade-up" data-delay="400">
+                    <div class="product-badge">💖 Popular</div>
+                    <div class="product-img-wrap">
+                        <div class="product-img product-emoji-img">🐱</div>
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" data-product="Whisker Kitty">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Whisker Kitty</h3>
+                        <div class="product-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="product-price">$19.99</div>
+                        <button class="btn btn-cart" data-name="Whisker Kitty" data-price="19.99">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card" data-animate="fade-up" data-delay="500">
+                    <div class="product-badge">🔥 Bestseller</div>
+                    <div class="product-img-wrap">
+                        <div class="product-img product-emoji-img">🦊</div>
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" data-product="Foxy Friend">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Foxy Friend</h3>
+                        <div class="product-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="product-price">$26.99</div>
+                        <button class="btn btn-cart" data-name="Foxy Friend" data-price="26.99">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== PARALLAX DIVIDER ====================== -->
+    <section class="parallax-divider" id="parallaxDivider">
+        <div class="parallax-content">
+            <h2 data-animate="fade-up">🌟 Every Plushie Tells a Story 🌟</h2>
+            <p data-animate="fade-up">Crafted with love, made for hugs.</p>
+        </div>
+    </section>
+
+    <!-- ====================== ABOUT US ====================== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">💜 Who Are We? 💜</span>
+                <h2 class="section-title">About Plushie's Dream</h2>
+                <p class="section-subtitle">A magical world of softness and joy!</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text" data-animate="fade-right">
+                    <p>
+                        Welcome to <strong>Plushie's Dream</strong> — a whimsical wonderland where every stuffed animal
+                        is crafted with love, imagination, and a dash of magic! ✨
+                    </p>
+                    <p>
+                        Our mission is simple: to bring smiles, warmth, and endless cuddles to kids (and kids-at-heart!)
+                        around the world. Each plushie is designed with the softest fabrics and the biggest hearts.
+                    </p>
+                    <p>
+                        From cuddly bears to magical unicorns, every toy in our collection is a loyal companion
+                        waiting to join your next adventure. 🌈
+                    </p>
+                </div>
+
+                <div class="about-features" data-animate="fade-left">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧵</div>
+                        <h4>Handcrafted Quality</h4>
+                        <p>Premium materials, stitched with care</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌿</div>
+                        <h4>Eco-Friendly</h4>
+                        <p>Sustainable & safe for little ones</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💝</div>
+                        <h4>Made with Love</h4>
+                        <p>Every plushie has a heart inside</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚚</div>
+                        <h4>Free Shipping</h4>
+                        <p>On orders over $50</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== GALLERY ====================== -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">📸 Plushie Gallery 📸</span>
+                <h2 class="section-title">Adorable Moments</h2>
+                <p class="section-subtitle">Our plushies in their natural habitats!</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item" data-animate="zoom-in" data-delay="0">
+                    <img src="images/plushie_bear.png" alt="Bear plushie" loading="lazy">
+                    <div class="gallery-overlay"><span>🔍</span></div>
+                </div>
+                <div class="gallery-item" data-animate="zoom-in" data-delay="100">
+                    <img src="images/plushie_unicorn.png" alt="Unicorn plushie" loading="lazy">
+                    <div class="gallery-overlay"><span>🔍</span></div>
+                </div>
+                <div class="gallery-item" data-animate="zoom-in" data-delay="200">
+                    <img src="images/plushie_bunny.png" alt="Bunny plushie" loading="lazy">
+                    <div class="gallery-overlay"><span>🔍</span></div>
+                </div>
+                <div class="gallery-item gallery-emoji" data-animate="zoom-in" data-delay="300">
+                    <div class="gallery-emoji-content">🐻🧸🐰</div>
+                    <div class="gallery-overlay"><span>🔍</span></div>
+                </div>
+                <div class="gallery-item gallery-emoji" data-animate="zoom-in" data-delay="400">
+                    <div class="gallery-emoji-content">🦄🌈✨</div>
+                    <div class="gallery-overlay"><span>🔍</span></div>
+                </div>
+                <div class="gallery-item gallery-emoji" data-animate="zoom-in" data-delay="500">
+                    <div class="gallery-emoji-content">🐱🦊🐼</div>
+                    <div class="gallery-overlay"><span>🔍</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== LIGHTBOX ====================== -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="Gallery preview">
+        </div>
+    </div>
+
+    <!-- ====================== TESTIMONIALS ====================== -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">💬 Happy Customers 💬</span>
+                <h2 class="section-title">What They Say</h2>
+                <p class="section-subtitle">Real love from real plushie fans!</p>
+            </div>
+
+            <div class="carousel-wrapper" data-animate="fade-up">
+                <div class="carousel" id="testimonialCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-avatar">👧</div>
+                                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                                <p class="testimonial-text">"My daughter absolutely LOVES her pink bear! She takes it
+                                    everywhere. The quality is incredible — so soft and cuddly!"</p>
+                                <h4 class="testimonial-name">Sarah M.</h4>
+                                <span class="testimonial-role">Happy Mom 💖</span>
+                            </div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-avatar">👦</div>
+                                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                                <p class="testimonial-text">"The unicorn plushie is magical! My son won't sleep without
+                                    it. Best gift ever. Will definitely order more!"</p>
+                                <h4 class="testimonial-name">James K.</h4>
+                                <span class="testimonial-role">Proud Dad 🌟</span>
+                            </div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-avatar">👩</div>
+                                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                                <p class="testimonial-text">"I bought the bunny for myself — no shame! It's the softest
+                                    thing I've ever touched. Plushie's Dream is my new favorite shop!"</p>
+                                <h4 class="testimonial-name">Emily R.</h4>
+                                <span class="testimonial-role">Plushie Collector 🐰</span>
+                            </div>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="carousel-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-avatar">👴</div>
+                                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                                <p class="testimonial-text">"Ordered the dino for my grandchild's birthday. The
+                                    packaging was adorable and the toy itself is beyond cute!"</p>
+                                <h4 class="testimonial-name">Robert L.</h4>
+                                <span class="testimonial-role">Best Grandpa 🦕</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel controls -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous">❮</button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <button class="carousel-btn next" id="carouselNext" aria-label="Next">❯</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== CONTACT ====================== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">📩 Get in Touch 📩</span>
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">We'd love to hear from you!</p>
+            </div>
+
+            <div class="contact-wrapper" data-animate="fade-up">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="formName" class="form-input" placeholder=" " required>
+                        <label for="formName" class="form-label">Your Name 🧸</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="formEmail" class="form-input" placeholder=" " required>
+                        <label for="formEmail" class="form-label">Your Email 💌</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="formMessage" class="form-input form-textarea" placeholder=" " required
+                            rows="5"></textarea>
+                        <label for="formMessage" class="form-label">Your Message 💬</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <span>Send Message</span>
+                        <span class="btn-sparkle">✨</span>
+                    </button>
+                </form>
+
+                <div class="contact-info" data-animate="fade-left">
+                    <div class="info-card">
+                        <span class="info-icon">📍</span>
+                        <h4>Visit Us</h4>
+                        <p>123 Cuddle Lane, Dreamland</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon">📧</span>
+                        <h4>Email Us</h4>
+                        <p>hello@plushiesdream.com</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon">📞</span>
+                        <h4>Call Us</h4>
+                        <p>+1 (555) PLUSHIE</p>
+                    </div>
+                    <div class="info-card chat-card" id="chatInfoCard">
+                        <span class="info-icon">💬</span>
+                        <h4>Chat with Us</h4>
+                        <p>We're online now!</p>
+                        <button class="btn btn-chat-start" id="chatStartBtn">
+                            <span>Start Chat</span>
+                            <span class="btn-sparkle">✨</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================== FOOTER ====================== -->
+    <footer class="footer" id="footer">
+        <div class="footer-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path fill="currentColor"
+                    d="M0,40 C360,100 720,0 1080,60 C1260,80 1380,40 1440,50 L1440,100 L0,100 Z" />
+            </svg>
+        </div>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>🧸 PLUSHIE'S DREAM</h3>
+                <p>Where Cuddles Come to Life!</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="#hero">Home</a>
+                <a href="#products">Shop</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" aria-label="Instagram">📸</a>
+                    <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-icon" aria-label="Facebook">👍</a>
+                    <a href="#" class="social-icon" aria-label="TikTok">🎵</a>
+                    <a href="#" class="social-icon" aria-label="YouTube">🎬</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Plushie's Dream. Made with 💖 & lots of cuddles.</p>
+        </div>
+    </footer>
+
+    <!-- ====================== CART SIDEBAR ====================== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>🛒 Your Cart</h3>
+            <button class="cart-close" id="cartClose">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <span>🧸</span>
+                <p>Your cart is empty!<br>Add some cuddles!</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="btn btn-primary btn-checkout">Checkout ✨</button>
+        </div>
+    </div>
+
+    <!-- ====================== TOAST NOTIFICATION ====================== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span class="toast-text" id="toastText">Item added to cart!</span>
+    </div>
+
+    <!-- ====================== FLOATING CHAT WIDGET ====================== -->
+    <div class="chat-fab" id="chatFab" aria-label="Chat with us">
+        <span class="chat-fab-icon" id="chatFabIcon">💬</span>
+        <span class="chat-fab-pulse"></span>
+    </div>
+
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-widget-header">
+            <div class="chat-widget-title">
+                <span>🧸</span>
+                <div>
+                    <h4>Plushie's Dream</h4>
+                    <span class="chat-status">● Online</span>
+                </div>
+            </div>
+            <button class="chat-widget-close" id="chatWidgetClose">&times;</button>
+        </div>
+        <div class="chat-widget-messages" id="chatMessages">
+            <div class="chat-msg bot">
+                <span class="chat-msg-avatar">🧸</span>
+                <div class="chat-msg-bubble">Hi there! 👋 Welcome to Plushie's Dream! How can we help you today?</div>
+            </div>
+        </div>
+        <form class="chat-widget-input" id="chatForm">
+            <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off">
+            <button type="submit" class="chat-send-btn">🚀</button>
+        </form>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
